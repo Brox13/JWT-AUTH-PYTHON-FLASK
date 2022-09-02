@@ -46,23 +46,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					const data = await resp.json()
 					if (data.msg === 'ok') {
-					// se ha registrado pero no logeado, que hago? navigate?
-					setStore({ alert: "registered"})
-					return data;
+						setStore({ alert: "registered" })
+						return data;
 					}
-				
+
 				} catch (error) {
 					console.log("Error loading message from backend", error)
-					
+
 				}
-				setStore({ alert: "error"})
+				setStore({ alert: "error" })
 				setStore({ loggedIn: false })
 				return null;
 			},
 
 			getLogin: async (data_front) => {
 				try {
-					// fetching data from the backend
 					const resp = await fetch(process.env.BACKEND_URL + "/login",
 						{
 							method: 'POST', headers: {
@@ -75,18 +73,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({ loggedIn: true })
 						return data;
 					}
-					
+
 				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
-				setStore({ alert: "error"})
+				setStore({ alert: "error" })
 				setStore({ loggedIn: false })
 				return null;
 			},
 
 			getProtected: async (token) => {
 				try {
-					// fetching data from the backend
 					const resp = await fetch(process.env.BACKEND_URL + "/protected",
 						{
 							method: 'GET', headers: {
@@ -96,45 +93,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					const data = await resp.json()
 
-					if(data.msg === "ok"){
+					if (data.msg === "ok") {
 						setStore({ loggedIn: true });
-						setStore({ alert: "loged in"})
+						setStore({ alert: "loged in" })
 						return data;
 					}
 				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
-				setStore({ alert: "error"})
+				setStore({ alert: "error" })
 				setStore({ loggedIn: false })
 				return null;
 			},
 
 			getMessage: async () => {
 				try {
-					// fetching data from the backend
 					const resp = await fetch(process.env.BACKEND_URL + "/hello")
-
 					const data = await resp.json()
-
 					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
 					return data;
 				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
 			changeColor: (index, color) => {
-				//get the store
 				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
 				const demo = store.demo.map((elm, i) => {
 					if (i === index) elm.background = color;
 					return elm;
 				});
-
-				//reset the global store
 				setStore({ demo: demo });
 			}
 		}

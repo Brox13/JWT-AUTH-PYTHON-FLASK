@@ -34,7 +34,7 @@ def Signup():
      
      return jsonify({'msg':'ok'}), 200
 
-@api.route('/login', methods=['POST']) #{"email: adf, password: asdfasd"}
+@api.route('/login', methods=['POST'])
 def login():
         
     body = request.get_json()
@@ -56,7 +56,7 @@ def login():
 @api.route("/protected", methods=["GET"])
 @jwt_required()
 def protected():
-    # Accede a la identidad del usuario actual con get_jwt_identity
+   
     current_user = get_jwt_identity()
     
     usr = User.query.filter_by(id=current_user).first()
